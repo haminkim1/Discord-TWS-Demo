@@ -15,40 +15,40 @@ import unittest
 
 class TestAnalyst(unittest.TestCase):
     def setUp(self):
-        self.Analyst3 = Analyst3()
+        self.analyst3 = Analyst3()
         
 
     def test_words_in_messages_appended_to_words_list_by_space(self):
-        self.Analyst3.message_data = [
+        self.analyst3.message_data = [
             {
                 "content": "len of Analyst3.options_contracts will be 0"
             }
         ]
 
-        self.Analyst3.process_messages()
-        words_list = self.Analyst3.words_list
+        self.analyst3.process_messages()
+        words_list = self.analyst3.words_list
         self.assertEqual(["len", "of", "Analyst3.options_contracts", "will", "be", "0"], words_list)
 
 
     def test_process_messages_non_contract_messages(self):
-        self.Analyst3.message_data = [
+        self.analyst3.message_data = [
             {
                 "content": "len of Analyst3.options_contracts will be 0"
             }
         ]
-        self.Analyst3.process_messages()
-        self.assertEqual(0, len(self.Analyst3.options_contracts))
+        self.analyst3.process_messages()
+        self.assertEqual(0, len(self.analyst3.options_contracts))
 
 
     def test_process_messages_open_contract(self):
-        self.Analyst3.message_data = [
+        self.analyst3.message_data = [
             {
                 "content": "**Swing Trade**: BTO 5 V 235P 10/06 @ 1.02"
             }
         ]
-        self.Analyst3.process_messages()
-        oc = self.Analyst3.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst3.options_contracts))
+        self.analyst3.process_messages()
+        oc = self.analyst3.options_contracts[0]
+        self.assertEqual(1, len(self.analyst3.options_contracts))
 
         self.assertEqual("BUY", oc.action) 
         self.assertEqual("V", oc.symbol)
@@ -58,14 +58,14 @@ class TestAnalyst(unittest.TestCase):
 
 
     def test_process_messages_open_contract_lowercase(self):
-        self.Analyst3.message_data = [
+        self.analyst3.message_data = [
             {
                 "content": "**Swing Trade**: bto 5 V 235P 10/06 @ 1.02"
             }
         ]
-        self.Analyst3.process_messages()
-        oc = self.Analyst3.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst3.options_contracts))
+        self.analyst3.process_messages()
+        oc = self.analyst3.options_contracts[0]
+        self.assertEqual(1, len(self.analyst3.options_contracts))
 
         self.assertEqual("BUY", oc.action) 
         self.assertEqual("V", oc.symbol)
@@ -75,14 +75,14 @@ class TestAnalyst(unittest.TestCase):
 
 
     def test_process_messages_open_contract_mixedcase(self):
-        self.Analyst3.message_data = [
+        self.analyst3.message_data = [
             {
                 "content": "**Swing Trade**: BtO 5 V 235P 10/06 @ 1.02"
             }
         ]
-        self.Analyst3.process_messages()
-        oc = self.Analyst3.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst3.options_contracts))
+        self.analyst3.process_messages()
+        oc = self.analyst3.options_contracts[0]
+        self.assertEqual(1, len(self.analyst3.options_contracts))
 
         self.assertEqual("BUY", oc.action) 
         self.assertEqual("V", oc.symbol)
@@ -92,43 +92,43 @@ class TestAnalyst(unittest.TestCase):
 
 
     def test_process_messages_open_contract_fails(self):
-        self.Analyst3.message_data = [
+        self.analyst3.message_data = [
             {
                 "content": "**Swing Trade**: BTO"
             }
         ]
-        self.Analyst3.process_messages()
-        self.assertEqual(0, len(self.Analyst3.options_contracts))
+        self.analyst3.process_messages()
+        self.assertEqual(0, len(self.analyst3.options_contracts))
 
 
     def test_process_messages_open_contract_fails_in_different_order(self):
-        self.Analyst3.message_data = [
+        self.analyst3.message_data = [
             {
                 "content": "**Swing Trade**: BtO 5 235P V 10/06 @ 1.02"
             }
         ]
-        self.Analyst3.process_messages()
-        self.assertEqual(0, len(self.Analyst3.options_contracts))
+        self.analyst3.process_messages()
+        self.assertEqual(0, len(self.analyst3.options_contracts))
 
 
     def test_process_messages_open_contract_fails_in_incorrect_date_format(self):
-        self.Analyst3.message_data = [
+        self.analyst3.message_data = [
             {
                 "content": "**Swing Trade**: BtO 5 235P V 10_06 @ 1.02"
             }
         ]
-        self.Analyst3.process_messages()
-        self.assertEqual(0, len(self.Analyst3.options_contracts))
+        self.analyst3.process_messages()
+        self.assertEqual(0, len(self.analyst3.options_contracts))
 
 
     def test_process_messages_open_contract_fails_if_strike_and_right_spaced(self):
-        self.Analyst3.message_data = [
+        self.analyst3.message_data = [
             {
                 "content": "**Swing Trade**: BTO 5 V 235 P 10/06 @ 1.02"
             }
         ]
-        self.Analyst3.process_messages()
-        self.assertEqual(0, len(self.Analyst3.options_contracts))
+        self.analyst3.process_messages()
+        self.assertEqual(0, len(self.analyst3.options_contracts))
 
 
     """

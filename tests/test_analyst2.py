@@ -18,40 +18,40 @@ import unittest
 
 class TestAnalyst(unittest.TestCase):
     def setUp(self):
-        self.Analyst2 = Analyst2()
+        self.analyst2 = Analyst2()
         
 
     def test_words_in_messages_appended_to_words_list_by_space(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "content": "len of Analyst2.options_contracts will be 0"
             }
         ]
 
-        self.Analyst2.process_messages()
-        words_list = self.Analyst2.words_list
+        self.analyst2.process_messages()
+        words_list = self.analyst2.words_list
         self.assertEqual(["len", "of", "Analyst2.options_contracts", "will", "be", "0"], words_list)
 
 
     def test_process_messages_non_contract_messages(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "content": "len of Analyst2.options_contracts will be 0"
             }
         ]
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
 
     def test_process_messages_open_contract(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "content": "COIN 81c 10/13/23 @1.35"
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("BUY", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -61,14 +61,14 @@ class TestAnalyst(unittest.TestCase):
 
     
     def test_process_messages_open_contract_lowercase(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "content": "coin 81c 10/13/23 @1.35"
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("BUY", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -78,14 +78,14 @@ class TestAnalyst(unittest.TestCase):
 
 
     def test_process_messages_open_contract_uppercase(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "content": "COIN 81C 10/13/23 @1.35"
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("BUY", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -95,35 +95,35 @@ class TestAnalyst(unittest.TestCase):
 
 
     def test_process_messages_doesnt_create_open_contract_if_risky_or_lotto(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "content": "COIN 81C 10/13/23 @1.35 high risk"
             }
         ]
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "content": "COIN 81C 10/13/23 @1.35 lotto"
             }
         ]
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
 
     def test_process_messages_close_contract_with_no_referenced_message(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "content": "sold coin"
             }
         ]
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
 
     def test_process_messages_close_contract_lowercase(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "sold coin",
@@ -134,9 +134,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -146,7 +146,7 @@ class TestAnalyst(unittest.TestCase):
 
 
     def test_process_messages_close_contract_uppercase(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "SOLD COIN",
@@ -157,9 +157,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -169,7 +169,7 @@ class TestAnalyst(unittest.TestCase):
 
 
     def test_process_messages_close_contract_if_ref_message_is_also_close_sentence(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "SOLD COIN",
@@ -184,9 +184,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -196,7 +196,7 @@ class TestAnalyst(unittest.TestCase):
 
 
     def test_process_messages_close_contract_firstword_stoploss_key_words_lowercase(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "cutting coin",
@@ -207,9 +207,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -219,7 +219,7 @@ class TestAnalyst(unittest.TestCase):
 
 
     def test_process_messages_close_contract_firstword_stoploss_key_words_uppercase(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "CUTTING coin",
@@ -230,9 +230,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -242,7 +242,7 @@ class TestAnalyst(unittest.TestCase):
 
 
     def test_process_messages_doesnt_create_close_contract_if_firstword_stoploss_key_words_is_not_the_first_word(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "coin cutting",
@@ -253,12 +253,12 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
 
     def test_process_messages_close_contract_stoploss_key_words_lowercase(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "stopped out of coin",
@@ -269,9 +269,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -281,7 +281,7 @@ class TestAnalyst(unittest.TestCase):
 
 
     def test_process_messages_close_contract_stoploss_key_words_uppercase(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "STOPPED OUT OF COIN",
@@ -292,9 +292,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -304,7 +304,7 @@ class TestAnalyst(unittest.TestCase):
 
 
     def test_process_messages_create_close_contract_if_stoploss_key_words_is_not_the_first_word(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "coin got stopped",
@@ -315,9 +315,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -327,7 +327,7 @@ class TestAnalyst(unittest.TestCase):
 
 
     def test_process_messages_create_close_contract_if_stoploss_key_words_is_not_the_first_word_part2(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "not liking the price action. Letting this go.",
@@ -338,9 +338,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -350,7 +350,7 @@ class TestAnalyst(unittest.TestCase):
 
 
     def test_process_messages_close_contract_closing_key_words_lowercase(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "all out of this contract",
@@ -361,9 +361,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -373,7 +373,7 @@ class TestAnalyst(unittest.TestCase):
 
 
     def test_process_messages_close_contract_stoploss_key_words_uppercase(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "ALL OUT OF THIS CONTRACT",
@@ -384,9 +384,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -396,7 +396,7 @@ class TestAnalyst(unittest.TestCase):
 
 
     def test_process_messages_create_close_contract_if_stoploss_key_words_is_not_the_first_word(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "Liking the price action. All out of this contract.",
@@ -407,9 +407,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -419,7 +419,7 @@ class TestAnalyst(unittest.TestCase):
 
 
     def test_process_messages_create_close_contract_after_stops_at_entry_or_profits_alert_past_30_minutes_lowercase(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "Trimmed. Set stops at or above entry or profits",
@@ -432,9 +432,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -444,7 +444,7 @@ class TestAnalyst(unittest.TestCase):
 
 
     def test_process_messages_create_close_contract_after_stops_at_entry_or_profits_alert_past_30_minutes_uppercase(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "TRIMMED. SET STOPS AT OR ABOVE ENTRY OR PROFITS",
@@ -457,9 +457,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -470,7 +470,7 @@ class TestAnalyst(unittest.TestCase):
 
     def test_process_messages_firstword_trim_same_DTE(self):
         expiry_date_plus_2_days = get_NY_date_MM_DD_YYYY()
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "trim here",
@@ -483,9 +483,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -495,7 +495,7 @@ class TestAnalyst(unittest.TestCase):
 
     def test_process_messages_firstword_trim_same_DTE_uppercase(self):
         expiry_date_plus_0_days = get_NY_date_MM_DD_YYYY()
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "TRIM HERE",
@@ -508,9 +508,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -523,7 +523,7 @@ class TestAnalyst(unittest.TestCase):
         ny_date = datetime.now(ny_tz)
         expiry_date_plus_1_days = ny_date + timedelta(days=1)
         expiry_date_plus_1_days = expiry_date_plus_1_days.strftime('%m/%d/%Y')
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "trim here",
@@ -536,9 +536,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -551,7 +551,7 @@ class TestAnalyst(unittest.TestCase):
         ny_date = datetime.now(ny_tz)
         expiry_date_plus_2_days = ny_date + timedelta(days=2)
         expiry_date_plus_2_days = expiry_date_plus_2_days.strftime('%m/%d/%Y')
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "trim here",
@@ -564,8 +564,8 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
 
     def test_process_messages_firstword_trim_3_DTE(self):
@@ -573,7 +573,7 @@ class TestAnalyst(unittest.TestCase):
         ny_date = datetime.now(ny_tz)
         expiry_date_plus_3_days = ny_date + timedelta(days=3)
         expiry_date_plus_3_days = expiry_date_plus_3_days.strftime('%m/%d/%Y')
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "trim here",
@@ -586,13 +586,13 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
 
     def test_process_messages_firstword_trim_doesnt_create_close_contract_if_trim_not_firstword(self):
         expiry_date_plus_2_days = get_NY_date_MM_DD_YYYY()
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "Going to trim here",
@@ -605,13 +605,13 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
 
     def test_process_messages_partial_closing_keywords_0_DTE(self):
         expiry_date_plus_0_days = get_NY_date_MM_DD_YYYY()
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "Contract looks good. trimmed here",
@@ -624,9 +624,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -636,7 +636,7 @@ class TestAnalyst(unittest.TestCase):
 
     def test_process_messages_partial_closing_keywords_0_DTE_uppercase(self):
         expiry_date_plus_0_days = get_NY_date_MM_DD_YYYY()
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "CONTRACT LOOKS GOOD. TRIMMED HERE",
@@ -649,9 +649,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -661,7 +661,7 @@ class TestAnalyst(unittest.TestCase):
 
     def test_process_messages_partial_closing_keywords_1_DTE(self):
         expiry_date_plus_1_days = get_NY_date_MM_DD_YYYY()
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "Contract looks good. trimmed here",
@@ -674,9 +674,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -689,7 +689,7 @@ class TestAnalyst(unittest.TestCase):
         ny_date = datetime.now(ny_tz)
         expiry_date_plus_2_days = ny_date + timedelta(days=2)
         expiry_date_plus_2_days = expiry_date_plus_2_days.strftime('%m/%d/%Y')
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "Contract looks good. trimmed here",
@@ -702,8 +702,8 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
 
     def test_process_messages_partial_closing_keywords_3_DTE(self):
@@ -711,7 +711,7 @@ class TestAnalyst(unittest.TestCase):
         ny_date = datetime.now(ny_tz)
         expiry_date_plus_3_days = ny_date + timedelta(days=2)
         expiry_date_plus_3_days = expiry_date_plus_3_days.strftime('%m/%d/%Y')
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "Contract looks good. trimmed here",
@@ -724,12 +724,12 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
 
     def test_process_messages_does_not_calc_percentage_or_closing_price_if_stoploss_included_in_message(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "stoploss at @.50",
@@ -742,12 +742,12 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
 
     def test_process_messages_does_not_calc_percentage_or_closing_price_if_stoploss_included_in_message(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "stoploss at 50%",
@@ -760,12 +760,12 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
 
     def test_process_messages_create_contract_passing_closing_price_range(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "@0.75",
@@ -778,9 +778,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -788,7 +788,7 @@ class TestAnalyst(unittest.TestCase):
         self.assertEqual("C", oc.right)
         self.assertEqual("20231013", oc.expiry_date)
 
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "@1.4",
@@ -801,8 +801,8 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -810,7 +810,7 @@ class TestAnalyst(unittest.TestCase):
         self.assertEqual("C", oc.right)
         self.assertEqual("20231013", oc.expiry_date)
 
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "@1.95",
@@ -823,8 +823,8 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -832,7 +832,7 @@ class TestAnalyst(unittest.TestCase):
         self.assertEqual("C", oc.right)
         self.assertEqual("20231013", oc.expiry_date)
 
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "@3",
@@ -845,8 +845,8 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -856,7 +856,7 @@ class TestAnalyst(unittest.TestCase):
 
 
     def test_process_messages_doesnt_create_contract_failing_closing_price_range(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "@0.6",
@@ -869,12 +869,12 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.exit_percentage_less_than_50 = 0
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.exit_percentage_less_than_50 = 0
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
 
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "@1.2",
@@ -887,11 +887,11 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.exit_percentage_50_to_100 = 0
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.exit_percentage_50_to_100 = 0
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "@1.8",
@@ -904,11 +904,11 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.exit_percentage_100_to_150 = 0
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.exit_percentage_100_to_150 = 0
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "@2.1",
@@ -921,13 +921,13 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.exit_percentage_150_to_200 = 0
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.exit_percentage_150_to_200 = 0
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
 
     def test_process_messages_create_contract_passing_closing_percentage_range(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "50%",
@@ -940,9 +940,9 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
-        self.assertEqual(1, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
+        self.assertEqual(1, len(self.analyst2.options_contracts))
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -950,7 +950,7 @@ class TestAnalyst(unittest.TestCase):
         self.assertEqual("C", oc.right)
         self.assertEqual("20231013", oc.expiry_date)
 
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "40%",
@@ -963,8 +963,8 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -972,7 +972,7 @@ class TestAnalyst(unittest.TestCase):
         self.assertEqual("C", oc.right)
         self.assertEqual("20231013", oc.expiry_date)
 
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "30%",
@@ -985,8 +985,8 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -994,7 +994,7 @@ class TestAnalyst(unittest.TestCase):
         self.assertEqual("C", oc.right)
         self.assertEqual("20231013", oc.expiry_date)
 
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "25%",
@@ -1007,8 +1007,8 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        oc = self.Analyst2.options_contracts[0]
+        self.analyst2.process_messages()
+        oc = self.analyst2.options_contracts[0]
 
         self.assertEqual("SELL", oc.action) 
         self.assertEqual("COIN", oc.symbol)
@@ -1019,7 +1019,7 @@ class TestAnalyst(unittest.TestCase):
     # Commenting this as I've removed the closing price range from Analyst2. The program
     # will create closing contracts upon any closing alert.  
     def test_process_messages_doesnt_create_contract_failing_closing_price_range(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "5%",
@@ -1032,12 +1032,12 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.exit_percentage_less_than_50 = 0
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.exit_percentage_less_than_50 = 0
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
 
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "5%",
@@ -1050,11 +1050,11 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.exit_percentage_50_to_100 = 0
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.exit_percentage_50_to_100 = 0
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "5%",
@@ -1067,11 +1067,11 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.exit_percentage_100_to_150 = 0
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.exit_percentage_100_to_150 = 0
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "5%",
@@ -1084,13 +1084,13 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.exit_percentage_150_to_200 = 0
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.exit_percentage_150_to_200 = 0
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
 
     def test_process_messages_doesnt_create_contract_empty_closing_price(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "",
@@ -1103,10 +1103,10 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "@",
@@ -1119,10 +1119,10 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "@hi",
@@ -1135,12 +1135,12 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
 
     def test_process_messages_doesnt_create_contract_empty_alerted_percentage(self):
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "%",
@@ -1153,11 +1153,11 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
 
-        self.Analyst2.message_data = [
+        self.analyst2.message_data = [
             {
                 "id": "1",
                 "content": "hi%",
@@ -1170,8 +1170,8 @@ class TestAnalyst(unittest.TestCase):
                     }
             }
         ]
-        self.Analyst2.process_messages()
-        self.assertEqual(0, len(self.Analyst2.options_contracts))
+        self.analyst2.process_messages()
+        self.assertEqual(0, len(self.analyst2.options_contracts))
 
 
 

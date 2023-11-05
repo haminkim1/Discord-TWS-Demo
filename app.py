@@ -6,7 +6,6 @@ from classes.discord.Analyst3 import Analyst3
 from classes.discord.test_classes.Analyst3_Test import Analyst3_Test
 from classes.discord.Analyst2 import Analyst2
 from classes.discord.test_classes.Analyst2_Test import Analyst2_Test
-from classes.discord.Analyst4 import Analyst4
 from classes.ibkr.IBKR_Bot import IBKR_Trade_Bot
 from utils.api_requests import *
 from utils.csv_utils import post_data_as_CSV, update_positions
