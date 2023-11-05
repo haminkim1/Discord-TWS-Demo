@@ -1,0 +1,1 @@
+ws = "Log for testing"
