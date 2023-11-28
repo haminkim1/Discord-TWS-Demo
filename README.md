@@ -1,4 +1,5 @@
 # Discord-TWS-Demo
+- A showcase repository displaying project snippets aimed at demonstrating my programming proficiency, intending to secure interviews as an entry-level developer. As a result, users will not be able to clone and run the app. 
 
 ## High-Level Flowchart ##
 ![Alt text](<High level flowchart.PNG>)
