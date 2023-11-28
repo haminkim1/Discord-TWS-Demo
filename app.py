@@ -18,20 +18,20 @@ import time
 
 def main():
     # Uncomment below for prod
-    Analyst1 = Analyst1()
-    Analyst2 = Analyst2()
-    Analyst3 = Analyst3()
+    analyst1 = Analyst1()
+    analyst2 = Analyst2()
+    analyst3 = Analyst3()
 
     # Uncomment below for testing only
-    Analyst1_test_analyst = Analyst1_Test_Analyst()
-    Analyst2_test = Analyst2_Test()
-    Analyst3_test = Analyst3_Test()
+    analyst1_test_analyst = Analyst1_Test_Analyst()
+    analyst2_test = Analyst2_Test()
+    analyst3_test = Analyst3_Test()
     
     analysts = []
     
-    analysts.append(Analyst2_test)
-    analysts.append(Analyst2)
-    analysts.append(Analyst3)
+    analysts.append(analyst2_test)
+    analysts.append(analyst2)
+    analysts.append(analyst3)
 
 
     ibkr_bot = IBKR_Trade_Bot()

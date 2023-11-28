@@ -8,6 +8,7 @@ parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 
 from classes.discord.backtest_classes.Analyst2_Backtest import Analyst2_Backtest
+from classes.discord.Analyst4 import Analyst4
 import os
 from backtester.modules.modules import *
 from google_sheets.gspread_modules import *
@@ -17,7 +18,7 @@ def main():
     """
     SELECT ANALYST HERE
     """
-    analyst = Analyst2_Backtest()
+    analyst = Analyst4()
     """
     DON'T TOUCH BELOW CODE IF ONLY PLANNING TO RUN THE PROGRAM
     """

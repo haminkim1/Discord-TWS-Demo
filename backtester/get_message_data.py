@@ -23,7 +23,7 @@ def main():
     """
     SELECT ANALYST HERE
     """
-    analyst = Analyst2()
+    analyst = Analyst4()
     """
     DON'T TOUCH BELOW CODE IF ONLY PLANNING TO RUN THE PROGRAM
     """
